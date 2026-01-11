@@ -1,41 +1,46 @@
-/* ****************************************** 
- * This server.js file is the primary file of the 
- * application. It is used to control the project.
+/* ******************************************
+ * server.js – Primary Express Server File
  *******************************************/
 
-/* *********************** 
- * Require Statements 
+/* ***********************
+ * Require Statements
  *************************/
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
 require("dotenv").config()
 
+/* ***********************
+ * Initialize App
+ *************************/
 const app = express()
 
-/* *********************** 
- * View Engine and Templates 
+/* ***********************
+ * View Engine and Templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout")
 
-/* *********************** 
- * Middleware 
+/* ***********************
+ * Middleware
  *************************/
+// Serve static files from "public" folder
 app.use(express.static("public"))
 
-/* *********************** 
- * Routes 
+/* ***********************
+ * Routes
  *************************/
 app.get("/", (req, res) => {
   res.render("index", { title: "Home" })
 })
 
-/* *********************** 
- * Server Information 
- *************************/
-const port = process.env.PORT || 8080
+// Add additional routes here if needed
+// e.g., app.get("/about", (req, res) => { res.render("about", { title: "About" }) })
 
+/* ***********************
+ * Start Server
+ *************************/
+const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`App listening on port ${port}`)
 })

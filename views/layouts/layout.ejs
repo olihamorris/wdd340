@@ -1,51 +1,52 @@
-<div class="entry-page">
-  <div class="entry-overlay">
-    <!-- HERO SECTION -->
-    <section class="hero">
-      <img src="/images/vehicles/delorean.jpg" alt="CSE Motors featured vehicle">
-      <div class="hero-details">
-        <h2>DMC Delorean</h2>
-        <ul>
-          <li>3 Cup winners</li>
-          <li>Superman doors</li>
-          <li>Fuzzy dice</li>
-          <li>Own Today</li>
-        </ul>
-        <a href="                            
-      </div>
-    </section>
-    <!-- REVIEWS SECTION -->
-    <section class="reviews">
-      <h3>DMC Delorean Reviews</h3>
-      <ul>
-        <li>“So fast its like traveling in time”(4/5)</li>
-        <li>“Coolest ride on the road”(4/5)</li>
-        <li>“I'm feelikg McFly”(5/5)</li>
-        <li>“The most fururistic ride of our day.”(5/5)</li>
-        <li>“80's livin and I love it”(4.5/5)</li>
-      </ul>
-    </section>
-    <!-- UPGRADES SECTION -->
-    <section class="upgrades-section">
-      <h3>Delorean Upgrades</h3>
-      <div class="upgrades">
-        <div class="upgrade-card">
-          <img src="/images/upgrades/flux-cap.png" alt="Flux Capacitor">
-          <p>Flux Capacitor</p>
-        </div>
-        <div class="upgrade-card">
-          <img src="/images/upgrades/flame.png" alt="Flame">
-          <p>Interior</p>
-        </div>
-        <div class="upgrade-card">
-          <img src="/images/upgrades/bumper_sticker.jpg" alt="Bumper Sticker">
-          <p>Exterior</p>
-        </div>
-        <div class="upgrade-card">
-          <img src="/images/upgrades/hub-cap.jpg" alt="Hub Cap">
-          <p>Exterior</p>
-        </div>
-      </div>
-    </section>
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- Page Title -->
+  <title><%= title %> | CSE Motors</title>
+
+  <!-- CSS with cache-busting -->
+  <link rel="stylesheet" href="/css/test.css">
+
+  <!-- Optional: Add favicon -->
+  <link rel="icon" href="/images/logo.png" type="image/png">
+</head>
+<body>
+  
+  <!-- HEADER -->
+  <header id="top-header">
+    <div class="siteName">
+      <a href="/">CSE Motors</a>
+    </div>
+    <div id="tools">
+      <a href="/about">About</a>
+      <a href="/contact">Contact</a>
+    </div>
+  </header>
+
+  <!-- NAVIGATION -->
+  <nav>
+    <ul>
+      <li><a href="/">Home</a></li>
+      <li><a href="/inventory">Inventory</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/upgrades">Upgrades</a></li>
+      <li><a href="/reviews">Reviews</a></li>
+    </ul>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <%- body %>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; <%= new Date().getFullYear() %> CSE Motors. All rights reserved.
+  </footer>
+
+</body>
+</html>
