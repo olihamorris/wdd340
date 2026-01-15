@@ -1,47 +1,49 @@
--- Insert a user (Tony Stark)
+-- 1. Insert Tony Stark
 INSERT INTO account (
   account_firstname,
   account_lastname,
   account_email,
-  account_password,
-  account_type
-)
-VALUES (
+  account_password
+) VALUES (
   'Tony',
   'Stark',
-  'tony@starkindustries.com',
-  'iamironman',
-  'Admin'
+  'tony@starkent.com',
+  'Iam1ronM@n'
 );
 
--- Update Tony Stark email address
+-- 2. Update Tony Stark to Admin (use primary key)
 UPDATE account
-SET account_email = 'ironman@starkindustries.com'
-WHERE account_email = 'tony@starkindustries.com';
+SET account_type = 'Admin'
+WHERE account_id = (
+  SELECT account_id FROM account
+  WHERE account_email = 'tony@starkent.com'
+);
 
--- Delete account (Tony Stark)
+-- 3. Delete Tony Stark
 DELETE FROM account
-WHERE account_email = 'ironman@starkindustries.com';
+WHERE account_email = 'tony@starkent.com';
 
--- Select inventory with classification name
+-- 4. Update GM Hummer description using REPLACE
+UPDATE inventory
+SET inv_description = REPLACE(
+  inv_description,
+  'small interiors',
+  'a huge interior'
+)
+WHERE inv_model = 'Hummer';
+
+-- 5. Join inventory + classification (Sport)
 SELECT
   i.inv_make,
   i.inv_model,
   c.classification_name
 FROM inventory i
-JOIN classification c
-ON i.classification_id = c.classification_id;
+INNER JOIN classification c
+ON i.classification_id = c.classification_id
+WHERE c.classification_name = 'Sport';
 
--- Update description for a specific inventory item
-UPDATE inventory
-SET inv_description = 'This vehicle is updated for assignment testing.'
-WHERE inv_id = 1;
-
--- Update image and thumbnail paths
+-- 6. Update image paths
 UPDATE inventory
 SET
   inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
-  inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');  
-
-
-
+  inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');
