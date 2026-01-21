@@ -1,21 +1,28 @@
 -- ==========================================
 -- CSE Motors Database Rebuild File
+-- SAFE FOR RENDER RESETS
 -- ==========================================
 
--- ENUM
+-- ---------- CLEAN SLATE ----------
+DROP TABLE IF EXISTS inventory CASCADE;
+DROP TABLE IF EXISTS account CASCADE;
+DROP TABLE IF EXISTS classification CASCADE;
+DROP TYPE IF EXISTS client_type;
+
+-- ---------- ENUM ----------
 CREATE TYPE client_type AS ENUM (
   'Client',
   'Employee',
   'Admin'
 );
 
--- Classification table
+-- ---------- CLASSIFICATION ----------
 CREATE TABLE classification (
   classification_id SERIAL PRIMARY KEY,
   classification_name VARCHAR(30) NOT NULL
 );
 
--- Account table
+-- ---------- ACCOUNT ----------
 CREATE TABLE account (
   account_id INTEGER GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
   account_firstname VARCHAR(30) NOT NULL,
@@ -25,7 +32,7 @@ CREATE TABLE account (
   account_type client_type DEFAULT 'Client'
 );
 
--- Inventory table
+-- ---------- INVENTORY ----------
 CREATE TABLE inventory (
   inv_id SERIAL PRIMARY KEY,
   inv_make VARCHAR(30) NOT NULL,
@@ -43,7 +50,7 @@ CREATE TABLE inventory (
     REFERENCES classification (classification_id)
 );
 
--- Insert classifications
+-- ---------- DATA ----------
 INSERT INTO classification (classification_name)
 VALUES
   ('SUV'),
@@ -52,18 +59,42 @@ VALUES
   ('Sport'),
   ('Classic');
 
--- Insert sample inventory (GM Hummer example assumed exists)
+-- Sample inventory REQUIRED for later UPDATEs
+INSERT INTO inventory (
+  inv_make,
+  inv_model,
+  inv_year,
+  inv_description,
+  inv_image,
+  inv_thumbnail,
+  inv_price,
+  inv_miles,
+  inv_color,
+  classification_id
+)
+VALUES (
+  'GM',
+  'Hummer',
+  2022,
+  'A tough vehicle with small interiors',
+  '/images/hummer.png',
+  '/images/hummer-tn.png',
+  55000.00,
+  12000,
+  'Black',
+  1
+);
 
--- COPIED FROM assignment2.sql (REQUIRED)
+-- ---------- REQUIRED UPDATES ----------
 UPDATE inventory
 SET inv_description = REPLACE(
   inv_description,
   'small interiors',
   'a huge interior'
-)  
+)
 WHERE inv_model = 'Hummer';
 
 UPDATE inventory
 SET
   inv_image = REPLACE(inv_image, '/images/', '/images/vehicles/'),
-  inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/');  
+  inv_thumbnail = REPLACE(inv_thumbnail, '/images/', '/images/vehicles/'); 

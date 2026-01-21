@@ -148,6 +148,22 @@ footer {
   border-top: 1px solid #ccc;
 }
 
+/* ==== Vehicle Details Page ==== */
+.vehicle-detail {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.vehicle-detail img {
+  max-width: 100%;
+  width: 400px;
+}
+
+.vehicle-info {
+  max-width: 500px;
+}
+
 /* ==== Large Screen ==== */
 @media screen and (min-width:768px) {
   .details {
@@ -162,5 +178,19 @@ footer {
  .reviews {
     flex: 1;
     order: 2;
+  }
+
+  /* === Vehicle Detail Large Screen === */
+  .vehicle-detail {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .vehicle-detail img {
+    width: 400px;
+  }
+
+  .vehicle-info {
+    max-width: 500px;
   }
 }
