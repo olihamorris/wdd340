@@ -38,7 +38,7 @@ app.use(express.static("public"))
 /* ***********************
  * Routes
  *************************/
-app.get("/", baseController.buildHome)
+
 
 /* ***********************
  * Start Server
