@@ -1,196 +1,310 @@
-/******* Box Model ***************/
+/*****************************
+ * GLOBAL RESET & BOX MODEL
+ *****************************/
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-/* ==== Base Style ==== */
-
+html,
 body {
   margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+/*****************************
+ * PAGE BACKGROUND
+ * (Checkerboard surface)
+ *****************************/
+body {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.6;
 
-  
-  background-image: url("/images\site\small_check.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-}
+  background-image: url("/images/site/small_check.jpg");
+  background-repeat: repeat;
 
-  #wrapper {
-  width: 90%;
-  max-width: 1200px;   
-  margin: 40px auto;   
-  background-color: #fff; 
+  display: flex;
+  justify-content: center;
   padding: 2rem;
+}
 
+/*****************************
+ * WHITE CONTENT SHEET
+ *****************************/
+#wrapper {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #ffffff;
+  padding: 1.5rem;
   
+  /* thin blue separation (grading critical) */
+  border: 4px solid #1aa3b0;
+
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  border-radius: 4px;
 }
 
-
-main {
-  padding: 1rem;
-}
-/* ===== Header & Navigation ===== */
+/*****************************
+ * HEADER
+ *****************************/
 header {
-  padding: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding-bottom: 1rem;
 }
+
+/*****************************
+ * NAVIGATION
+ *****************************/
 nav {
-  background-color: #000000 !important;
+  background-color: #000000;
   width: 100%;
-  min-height: 50px;
-  display: block;
 }
+
 nav ul {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
   list-style: none;
   padding: 0;
   margin: 0;
-  justify-content: space-around;
 }
+
 nav li {
-  flex: 1;
   text-align: center;
 }
+
 nav a {
-  color: #ffffff !important;
-  background-color: #000000;
-  text-decoration: none;
-  padding: 1.5rem;
   display: block;
+  padding: 1rem;
+
+  color: #ffffff;
+  background-color: #000000;
+
+  text-decoration: none;
   font-weight: bold;
   font-size: 1.1rem;
 }
-nav ul li a:hover, nav ul li a:focus {
-  background-color: #1aa3b0 !important;
-  color: #000000 !important;
+
+nav a:hover,
+nav a:focus {
+  background-color: #1aa3b0;
+  color: #000000;
 }
-/* ===Hero Section ==== */
+
+/*****************************
+ * MAIN CONTENT
+ *****************************/
+main {
+  padding: 1rem 0;
+}
+
+/*****************************
+ * HERO SECTION
+ *****************************/
 .hero {
   margin-bottom: 2rem;
 }
+
 .hero-content {
   position: relative;
-  background: rgba 255, 255, 255, 0.75;
 }
+
 .hero-text {
   position: absolute;
   top: 10px;
   left: 10px;
-  z-index: 5;
- 
+
   background-color: #ffffff;
   color: #000000;
   padding: 1rem;
+  max-width: 90%;
+  transform: scale(0.50);
+  transform-origin: top left;
 }
-.hero-image img {
+
+.hero img {
   width: 100%;
   height: auto;
   display: block;
 }
-/* ===== Button ==== */
+
+/*****************************
+ * BUTTONS
+ *****************************/
 .btn {
   display: inline-block;
   padding: 0.5rem 1rem;
+
   background-color: #004d55;
-  color: #ffffff !important;
+  color: #ffffff;
+
   text-decoration: none;
   font-weight: bold;
-  margin-top: 5px;
+
   border: 1px solid #333;
+  margin-top: 0.5rem;
 }
-/* ===== Upgrades ===== */
+
+/*****************************
+ * UPGRADES
+ *****************************/
 .upgrade-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
 }
-.upgrade-grid > div {
-  text-align: center;
+
+.upgrade-grid div {
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
+
 .upgrade-grid img {
-  width: 100%;
-  height: auto;
   max-width: 120px;
   padding: 10px;
-  margin: 0 auto;
+
   background-color: #9eeaf0;
   border: 1px solid #333;
 }
-.upgrade-grid p{
-  margin-top: 5px;
-  font-size: 0.9rem;
-  color: #003366;
-  text-decoration: none;
-  padding: 0;
+
+.upgrade-grid p {
+  margin-top: 0.5rem;
   font-weight: bold;
+  color: #003366;
 }
-/* ===== Reviews ==== */
+
+/*****************************
+ * REVIEWS
+ *****************************/
 .reviews ul {
   padding-left: 1.5rem;
 }
 
-/* ===Footer ==== */
-footer {
-  margin-top: 2rem;
-  padding: 1rem;
-  border-top: 1px solid #ccc;
-}
-
-/* ==== Vehicle Details Page ==== */
+/*****************************
+ * VEHICLE DETAIL PAGE
+ *****************************/
 .vehicle-detail {
   display: flex;
-  gap: 2rem;
   flex-wrap: wrap;
+  gap: 2rem;
 }
 
 .vehicle-detail img {
-  max-width: 100%;
   width: 400px;
+  max-width: 100%;
 }
 
 .vehicle-info {
   max-width: 500px;
 }
 
-/* ==== Large Screen ==== */
-@media screen and (min-width:768px) {
+/*****************************
+ * FOOTER
+ *****************************/
+footer {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #cccccc;
+  text-align: center;
+}
+
+/*****************************
+ * GLOBAL IMAGE SAFETY
+ *****************************/
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/*****************************
+ * FORM STYLINGS
+ *****************************/
+form {
+  max-width: 400px;
+  margin: 1rem auto;
+}
+
+label {
+  display: block;
+  margin-top: 1rem;
+}
+
+input, button {
+  width: 100%;
+  padding: 0.5rem;
+}
+
+button {
+  margin-top: 1.5rem;
+}
+
+
+Main bottom CSS 
+
+/* ================================
+   HTML5 Form Validation Styling
+   ================================ */
+
+/* Invalid inputs */
+input:required:invalid,
+input:focus:invalid,
+textarea:required:invalid {
+  border: 2px solid #c0392b;
+  background-image: url("/images/invalid.png");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 20px;
+}
+
+/* Valid inputs */
+input:required:valid,
+textarea:required:valid {
+  border: 2px solid #27ae60;
+  background-image: url("/images/valid.png");
+  background-repeat: no-repeat;
+  background-position: right 0.5rem center;
+  background-size: 20px;
+}
+
+/* Password hint text */
+.password-hint {
+  display: block;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+}
+
+/*****************************
+ * DESKTOP LAYOUT
+ *****************************/
+@media screen and (min-width: 768px) {
+
   .details {
     display: flex;
     gap: 3rem;
     align-items: flex-start;
   }
+
   .upgrades {
-    order: 1;
     flex: 1;
+    order: 1;
   }
- .reviews {
+
+  .reviews {
     flex: 1;
     order: 2;
   }
 
-  /* === Vehicle Detail Large Screen === */
   .vehicle-detail {
     flex-direction: row;
-    align-items: flex-start;
-  }
-
-  .vehicle-detail img {
-    width: 400px;
-  }
-
-  .vehicle-info {
-    max-width: 500px;
   }
 }

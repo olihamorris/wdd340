@@ -2,45 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Page Title -->
-  <title><%= title %> | CSE Motors</title>
 
-  <!-- CSS with cache-busting -->
+  <title><%= title %></title>
+
+  <!-- Main CSS -->
   <link rel="stylesheet" href="/css/test.css">
 
-  <!-- Optional: Add favicon -->
-  <link rel="icon" href="/images/logo.png" type="image/png">
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/images/site/favicon-32x32.png">
 </head>
 <body>
-  
-  <!-- HEADER -->
-  <header id="top-header">
-    <div class="siteName">
-      <a href="/">CSE Motors</a>
-    </div>
-    <div id="tools">
-      <a href="/about">About</a>
-      <a href="/contact">Contact</a>
-    </div>
-  </header>
 
-  <!-- NAVIGATION -->
-  <nav>
-  <%- nav %>
-  </nav>
+  <div id="wrapper">
 
-  <!-- MAIN CONTENT -->
-  <main>
-    <%- body %>
-  </main>
+    <header id="top-header">
+      <div class="siteName">
+        <a href="/">CSE Motors</a>
+      </div>
+      <div id="tools">
+        <a href="/about">About</a>
+        <a href="/contact">Contact</a>
+      </div>
+    </header>
 
-  <!-- FOOTER -->
-  <footer>
-    &copy; <%= new Date().getFullYear() %> CSE Motors. All rights reserved.
-  </footer>
+    <nav>
+      <%- nav %>
+    </nav>
+
+    <main>
+      <%- body %>
+    </main>
+
+    <footer>
+      &copy; <%= new Date().getFullYear() %> CSE Motors. All rights reserved.
+    </footer>
+
+  </div>
 
 </body>
 </html>

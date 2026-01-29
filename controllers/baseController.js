@@ -1,10 +1,10 @@
 const utilities = require("../utilities")
 
-async function buildHome(req, res) {
-  const nav = await utilities.getNav()
+async function buildHome(req, res, next) {
+  let nav = await utilities.getNav()
   res.render("index", {
     title: "Home",
-    nav
+    nav,
   })
 }
 
