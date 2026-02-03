@@ -1,39 +1,20 @@
-<h1><%= title %></h1>
+<h1>Login</h1>
 
-<% if (messages && messages.notice) { %>
+<% if (messages.notice) { %>
   <p class="notice"><%= messages.notice %></p>
 <% } %>
 
-<% if (errors) { %>
-  <ul class="notice">
-    <% errors.array().forEach(error => { %>
-      <li><%= error.msg %></li>
-    <% }) %>
-  </ul>
-<% } %>
-
 <form action="/account/login" method="POST">
+  <label>Email</label>
+  <input type="email" name="account_email" required>
 
-  <!-- Email -->
-  <label for="accountEmail">Email</label>
-  <input
-    type="email"
-    id="accountEmail"
-    name="account_email"
-    required
-    placeholder="Enter your email"
-    value="<%= locals.account_email %>"
-  >
-
-  <!-- Password -->
-  <label for="accountPassword">Password</label>
-  <input
-    type="password"
-    id="accountPassword"
-    name="account_password"
-    required
-  >
+  <label>Password</label>
+  <input type="password" name="account_password" required>
 
   <button type="submit">Login</button>
+</form>
 
-</form> 
+<p>
+  No account?
+  <a href="/account/register">Register here</a>
+</p>

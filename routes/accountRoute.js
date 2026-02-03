@@ -1,47 +1,48 @@
+// routes/accountRoute.js
 const express = require("express")
 const router = express.Router()
-const utilities = require("../utilities")
 const accountController = require("../controllers/accountController")
-const regValidate = require("../utilities/account-validation")
+const utilities = require("../utilities")
 
-/* ************************
- * Deliver login view
- ************************ */
+/* ****************************************
+ * Account routes
+ * *************************************** */
+
+// Login view
 router.get(
   "/login",
   utilities.handleErrors(accountController.buildLogin)
 )
 
-
-
-/* ************************
- * Process login
- ************************ */
-router.post(
-  "/login",
-  regValidate.loginRules(),
-  regValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin)
-)
-
-/* ************************
- * Deliver registration view
- ************************ */
+// Register view
 router.get(
   "/register",
   utilities.handleErrors(accountController.buildRegister)
 )
 
-/* ************************
- * Process registration
- ************************ */
+// Process registration
 router.post(
   "/register",
-  regValidate.registationRules(),
-  regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
 )
 
-router.get("/logout", utilities.handleErrors(accountController.logout))
+// Process login
+router.post(
+  "/login",
+  utilities.handleErrors(accountController.accountLogin)
+)
+
+// Account management (🔒 protected)
+router.get(
+  "/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildManagement)
+)
+
+// Logout
+router.get(
+  "/logout",
+  utilities.handleErrors(accountController.logout)
+)
 
 module.exports = router

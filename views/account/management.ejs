@@ -1,0 +1,13 @@
+<%- nav %>
+
+<h1>Account Management</h1>
+
+<p>You are logged in.</p>
+
+<% if (messages.notice) { %>
+  <p class="notice"><%= messages.notice %></p>
+<% } %>
+
+<ul>
+  <li><a href="/account/logout">Log out</a></li>
+</ul>

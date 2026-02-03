@@ -3,42 +3,51 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title><%= title %></title>
 
-  <!-- Main CSS -->
+  <!-- ✅ MAIN CSS -->
   <link rel="stylesheet" href="/css/test.css">
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="/images/site/favicon-32x32.png">
 </head>
 <body>
 
-  <div id="wrapper">
+<div id="wrapper">
 
-    <header id="top-header">
-      <div class="siteName">
-        <a href="/">CSE Motors</a>
+  <header id="top-header">
+    <div class="siteName">
+      <a href="/">CSE Motors</a>
+    </div>
+
+    <div id="tools">
+      <% if (loggedIn) { %>
+        <a href="/account/">Account</a> |
+        <a href="/account/logout">Logout</a>
+      <% } else { %>
+        <a href="/account/login">Login</a>
+      <% } %>
+    </div>
+  </header>
+
+  <nav>
+    <%- nav %>
+  </nav>
+
+  <main>
+    <% if (messages.notice) { %>
+      <div class="notice">
+        <%= messages.notice %>
       </div>
-      <div id="tools">
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </div>
-    </header>
+    <% } %>
 
-    <nav>
-      <%- nav %>
-    </nav>
+    <%- body %>
+  </main>
 
-    <main>
-      <%- body %>
-    </main>
+  <footer>
+    <p>&copy; <%= new Date().getFullYear() %> CSE Motors</p>
+  </footer>
 
-    <footer>
-      &copy; <%= new Date().getFullYear() %> CSE Motors. All rights reserved.
-    </footer>
-
-  </div>
+</div>
 
 </body>
 </html>

@@ -1,6 +1,9 @@
 const invModel = require("../models/inventory-model")
 const utilities = require("../utilities")
 
+/* ****************************************
+ * CONTROLLER OBJECT (REQUIRED)
+ **************************************** */
 const invCont = {}
 
 /* ***************************
@@ -132,6 +135,14 @@ invCont.buildByClassificationId = async function (req, res) {
   const vehicles = await invModel.getInventoryByClassificationId(classificationId)
   const nav = await utilities.getNav()
 
+  if (!vehicles || vehicles.length === 0) {
+    return res.status(404).render("errors/404", {
+      title: "No vehicles found",
+      nav,
+      message: "No vehicles in this classification.",
+    })
+  }
+
   res.render("inventory/classification", {
     title: vehicles[0].classification_name,
     nav,
@@ -155,4 +166,7 @@ invCont.buildDetail = async function (req, res) {
   })
 }
 
+/* ****************************************
+ * EXPORT CONTROLLER
+ **************************************** */
 module.exports = invCont

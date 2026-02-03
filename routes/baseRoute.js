@@ -1,11 +1,30 @@
 const express = require("express")
 const router = express.Router()
-const baseController = require("../controllers/baseController")
 const utilities = require("../utilities")
 
+/* ************************
+ * Home route
+ **************************/
 router.get(
   "/",
-  utilities.handleErrors(baseController.buildHome)
+  utilities.handleErrors(async (req, res) => {
+    const nav = await utilities.getNav()
+
+    res.render("index", {
+      title: "Home",
+      nav,
+    })
+  })
+)
+
+/* ************************
+ * Intentional 500 error
+ **************************/
+router.get(
+  "/error",
+  utilities.handleErrors(async (req, res) => {
+    throw new Error("Intentional server error")
+  })
 )
 
 module.exports = router
