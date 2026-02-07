@@ -1,6 +1,25 @@
 const pool = require("../database/")
 
 /* *****************************
+ * addClassification
+ * ***************************** */
+
+async function addClassification(classification_name) {
+  try {
+    const sql = `
+      INSERT INTO classification (classification_name)
+      VALUES ($1)
+      RETURNING *
+    `
+    const result = await pool.query(sql, [classification_name])
+    return result.rows[0]
+  } catch (error) {
+    console.error("addClassification error:", error)
+    throw error
+  }
+}
+
+/* *****************************
  * Get all classifications
  * ***************************** */
 async function getClassifications() {
@@ -138,6 +157,7 @@ async function addInventory(
  * EXPORTS
  * ***************************** */
 module.exports = {
+  addClassification, 
   getClassifications,
   getInventoryByClassificationId,
   getInventoryById,

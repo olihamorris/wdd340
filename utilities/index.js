@@ -18,12 +18,10 @@ async function getNav(req = null) {
           <a href="/inv/type/${row.classification_id}">
             ${row.classification_name}
           </a>
-        </li>
-      `
+        </li>`
     })
   }
 
-  /* 🔐 Login / Logout switch */
   if (req?.session?.loggedIn) {
     nav += '<li><a href="/account/">Account</a></li>'
     nav += '<li><a href="/account/logout">Logout</a></li>'
@@ -36,12 +34,10 @@ async function getNav(req = null) {
 }
 
 /* ****************************************
- * JWT CHECK MIDDLEWARE
- * (runs on every request)
+ * JWT CHECK
  **************************************** */
 function checkJWTToken(req, res, next) {
   const token = req.cookies.jwt
-
   if (!token) return next()
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
@@ -49,7 +45,6 @@ function checkJWTToken(req, res, next) {
       res.clearCookie("jwt")
       return next()
     }
-
     req.session.loggedIn = true
     req.session.accountData = decoded
     next()
@@ -57,17 +52,16 @@ function checkJWTToken(req, res, next) {
 }
 
 /* ****************************************
- * LOGIN REQUIRED MIDDLEWARE
+ * LOGIN REQUIRED
  **************************************** */
 function checkLogin(req, res, next) {
   if (req.session.loggedIn) return next()
-
   req.flash("notice", "Please log in.")
-  return res.redirect("/account/login")
+  res.redirect("/account/login")
 }
 
 /* ****************************************
- * CLASSIFICATION GRID BUILDER
+ * CLASSIFICATION GRID
  **************************************** */
 function buildClassificationGrid(data) {
   if (!Array.isArray(data) || data.length === 0) {
@@ -80,8 +74,7 @@ function buildClassificationGrid(data) {
     grid += `
       <li>
         <a href="/inv/detail/${vehicle.inv_id}">
-          <img src="${vehicle.inv_thumbnail}"
-               alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+          <img src="${vehicle.inv_thumbnail}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
         </a>
         <div class="namePrice">
           <h2>
@@ -91,8 +84,7 @@ function buildClassificationGrid(data) {
           </h2>
           <span>$${Number(vehicle.inv_price).toLocaleString()}</span>
         </div>
-      </li>
-    `
+      </li>`
   })
 
   grid += "</ul>"
@@ -109,18 +101,16 @@ function buildVehicleDetail(vehicle) {
 
   return `
     <section class="vehicle-detail">
-      <img src="${vehicle.inv_image}"
-           alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
+      <img src="${vehicle.inv_image}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model}">
       <div class="vehicle-info">
         <h2>${vehicle.inv_make} ${vehicle.inv_model}</h2>
         <p><strong>Price:</strong> $${Number(vehicle.inv_price).toLocaleString()}</p>
         <p><strong>Year:</strong> ${vehicle.inv_year}</p>
         <p><strong>Miles:</strong> ${Number(vehicle.inv_miles).toLocaleString()}</p>
-        <p><strong>Color:</strong> ${vehicle.inv_color ?? "Not specified"}</p>
+        <p><strong>Color:</strong> ${vehicle.inv_color}</p>
         <p>${vehicle.inv_description}</p>
       </div>
-    </section>
-  `
+    </section>`
 }
 
 /* ****************************************

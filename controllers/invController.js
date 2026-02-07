@@ -2,7 +2,7 @@ const invModel = require("../models/inventory-model")
 const utilities = require("../utilities")
 
 /* ****************************************
- * CONTROLLER OBJECT (REQUIRED)
+ * CONTROLLER OBJECT
  **************************************** */
 const invCont = {}
 
@@ -10,7 +10,7 @@ const invCont = {}
  * Inventory Management View
  * *************************** */
 invCont.buildManagement = async function (req, res) {
-  const nav = await utilities.getNav()
+  const nav = await utilities.getNav(req)
   res.render("inventory/management", {
     title: "Inventory Management",
     nav,
@@ -22,7 +22,7 @@ invCont.buildManagement = async function (req, res) {
  * Add Classification View
  * *************************** */
 invCont.buildAddClassification = async function (req, res) {
-  const nav = await utilities.getNav()
+  const nav = await utilities.getNav(req)
   res.render("inventory/add-classification", {
     title: "Add Classification",
     nav,
@@ -36,18 +36,14 @@ invCont.buildAddClassification = async function (req, res) {
  * *************************** */
 invCont.addClassification = async function (req, res) {
   const { classification_name } = req.body
-  const nav = await utilities.getNav()
 
   try {
     await invModel.addClassification(classification_name)
     req.flash("notice", "Classification added successfully.")
-    res.render("inventory/management", {
-      title: "Inventory Management",
-      nav,
-      messages: req.flash(),
-    })
+    res.redirect("/inv")
   } catch (error) {
     console.error(error)
+    const nav = await utilities.getNav(req)
     req.flash("notice", "Failed to add classification.")
     res.status(500).render("inventory/add-classification", {
       title: "Add Classification",
@@ -62,7 +58,7 @@ invCont.addClassification = async function (req, res) {
  * Add Inventory View
  * *************************** */
 invCont.buildAddInventory = async function (req, res) {
-  const nav = await utilities.getNav()
+  const nav = await utilities.getNav(req)
   const classificationList = await utilities.buildClassificationList()
 
   res.render("inventory/add-inventory", {
@@ -88,7 +84,7 @@ invCont.buildAddInventory = async function (req, res) {
  * Process Add Inventory
  * *************************** */
 invCont.addInventory = async function (req, res) {
-  const nav = await utilities.getNav()
+  const nav = await utilities.getNav(req)
   const classificationList = await utilities.buildClassificationList(
     req.body.classification_id
   )
@@ -108,11 +104,7 @@ invCont.addInventory = async function (req, res) {
     )
 
     req.flash("notice", "Inventory item added successfully.")
-    res.render("inventory/management", {
-      title: "Inventory Management",
-      nav,
-      messages: req.flash(),
-    })
+    res.redirect("/inv")
   } catch (error) {
     console.error(error)
     req.flash("notice", "Failed to add inventory item.")
@@ -133,7 +125,7 @@ invCont.addInventory = async function (req, res) {
 invCont.buildByClassificationId = async function (req, res) {
   const classificationId = req.params.classificationId
   const vehicles = await invModel.getInventoryByClassificationId(classificationId)
-  const nav = await utilities.getNav()
+  const nav = await utilities.getNav(req)
 
   if (!vehicles || vehicles.length === 0) {
     return res.status(404).render("errors/404", {
@@ -156,7 +148,7 @@ invCont.buildByClassificationId = async function (req, res) {
 invCont.buildDetail = async function (req, res) {
   const inv_id = req.params.inv_id
   const vehicle = await invModel.getInventoryById(inv_id)
-  const nav = await utilities.getNav()
+  const nav = await utilities.getNav(req)
 
   res.render("inventory/detail", {
     title: `${vehicle.inv_make} ${vehicle.inv_model}`,
@@ -164,6 +156,16 @@ invCont.buildDetail = async function (req, res) {
     vehicle,
     utilities,
   })
+}
+
+/* ***************************
+ * WEEK 5 JSON CONTROLLER
+ * *************************** */
+invCont.getInventoryJSON = async function (req, res) {
+  const classification_id = parseInt(req.params.classification_id)
+  const inventoryData =
+    await invModel.getInventoryByClassificationId(classification_id)
+  res.json(inventoryData)
 }
 
 /* ****************************************
