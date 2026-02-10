@@ -1,7 +1,9 @@
 <h1>Login</h1>
 
-<% if (messages.notice) { %>
-  <p class="notice"><%= messages.notice %></p>
+<% if (messages && messages.notice) { %>
+  <% messages.notice.forEach(message => { %>
+    <p class="notice"><%= message %></p>
+  <% }) %>
 <% } %>
 
 <form action="/account/login" method="POST">

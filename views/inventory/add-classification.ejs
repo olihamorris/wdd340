@@ -1,8 +1,14 @@
-<% if (messages && messages.notice) { %>
-  <p class="notice"><%= messages.notice %></p>
-<% } %>
+<%- nav %>
 
 <h1><%= title %></h1>
+
+<% if (errors) { %>
+  <ul class="notice">
+    <% errors.forEach(error => { %>
+      <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
 
 <form action="/inv/add-classification" method="post">
   <label for="classification_name">Classification Name</label>
@@ -11,7 +17,6 @@
     name="classification_name"
     id="classification_name"
     required
-    pattern="^[A-Za-z0-9]+$"
   >
 
   <button type="submit">Add Classification</button>

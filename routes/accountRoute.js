@@ -1,4 +1,3 @@
-// routes/accountRoute.js
 const express = require("express")
 const router = express.Router()
 const accountController = require("../controllers/accountController")
@@ -32,16 +31,31 @@ router.post(
   utilities.handleErrors(accountController.accountLogin)
 )
 
-// Account management (🔒 protected)
+// Account management view (protected)
 router.get(
   "/",
   utilities.checkLogin,
   utilities.handleErrors(accountController.buildManagement)
 )
 
+// Process account info update
+router.post(
+  "/update",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.updateAccount)
+)
+
+// Process password change
+router.post(
+  "/update-password",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.updatePassword)
+)
+
 // Logout
 router.get(
   "/logout",
+  utilities.checkLogin,
   utilities.handleErrors(accountController.logout)
 )
 

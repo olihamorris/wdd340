@@ -1,10 +1,8 @@
-<%- include("../layouts/layout", {
-  title: title,
-  nav: nav,
-  body: `
 <h1>Register</h1>
 
-${messages.notice ? `<p class="notice">${messages.notice}</p>` : ""}
+<% if (messages && messages.notice) { %>
+  <p class="notice"><%= messages.notice %></p>
+<% } %>
 
 <form action="/account/register" method="POST">
 
@@ -27,5 +25,3 @@ ${messages.notice ? `<p class="notice">${messages.notice}</p>` : ""}
   Already have an account?
   <a href="/account/login">Login here</a>
 </p>
-`
-}) %>

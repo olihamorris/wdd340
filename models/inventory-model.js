@@ -1,37 +1,16 @@
-const pool = require("../database/")
+const pool = require("../database")
 
-/* *****************************
- * addClassification
- * ***************************** */
-
-async function addClassification(classification_name) {
-  try {
-    const sql = `
-      INSERT INTO classification (classification_name)
-      VALUES ($1)
-      RETURNING *
-    `
-    const result = await pool.query(sql, [classification_name])
-    return result.rows[0]
-  } catch (error) {
-    console.error("addClassification error:", error)
-    throw error
-  }
-}
-
-/* *****************************
+/* ***************************
  * Get all classifications
- * ***************************** */
+ * ***************************/
 async function getClassifications() {
   try {
-    const sql = "SELECT * FROM classification ORDER BY classification_name"
+    const sql = `
+      SELECT classification_id, classification_name
+      FROM classification
+      ORDER BY classification_name
+    `
     const data = await pool.query(sql)
-
-    /* ===== TEMPORARY TEST (START) ===== */
-    console.log("✅ getClassifications() ran")
-    console.log("Rows returned:", data.rows)
-    /* ===== TEMPORARY TEST (END) ===== */
-
     return data.rows
   } catch (error) {
     console.error("getClassifications error:", error)
@@ -39,76 +18,28 @@ async function getClassifications() {
   }
 }
 
-/* *****************************
- * Get inventory by classification id
- * ***************************** */
-async function getInventoryByClassificationId(classification_id) {
+/* ***************************
+ * Add new classification
+ * ***************************/
+async function addClassification(classification_name) {
   try {
     const sql = `
-      SELECT i.*, c.classification_name
-      FROM inventory i
-      JOIN classification c
-        ON i.classification_id = c.classification_id
-      WHERE i.classification_id = $1
-      ORDER BY i.inv_make, i.inv_model
+      INSERT INTO classification (classification_name)
+      VALUES ($1)
+      RETURNING *
     `
-    const data = await pool.query(sql, [classification_id])
-
-    /* ===== TEMPORARY TEST (START) ===== */
-    console.log("✅ getInventoryByClassificationId() ran")
-    console.log("classification_id:", classification_id)
-    console.log("Rows returned:", data.rows)
-    /* ===== TEMPORARY TEST (END) ===== */
-
-    return data.rows
-  } catch (error) {
-    console.error("getInventoryByClassificationId error:", error)
-    throw error
-  }
-}
-
-/* *****************************
- * Get inventory by inventory id
- * ***************************** */
-async function getInventoryById(inv_id) {
-  try {
-    const sql = `
-      SELECT i.*, c.classification_name
-      FROM inventory i
-      JOIN classification c
-        ON i.classification_id = c.classification_id
-      WHERE i.inv_id = $1
-    `
-    const data = await pool.query(sql, [inv_id])
-
-    /* ===== TEMPORARY TEST (START) ===== */
-    console.log("✅ getInventoryById() ran")
-    console.log("inv_id:", inv_id)
-    console.log("Row returned:", data.rows[0])
-    /* ===== TEMPORARY TEST (END) ===== */
-
+    const data = await pool.query(sql, [classification_name])
     return data.rows[0]
   } catch (error) {
-    console.error("getInventoryById error:", error)
-    throw error
+    console.error("addClassification error:", error)
+    return null
   }
 }
 
-/* *****************************
- * Add new inventory item
- * ***************************** */
-async function addInventory(
-  inv_make,
-  inv_model,
-  inv_description,
-  inv_image,
-  inv_thumbnail,
-  inv_price,
-  inv_year,
-  inv_miles,
-  inv_color,
-  classification_id
-) {
+/* ***************************
+ * Add inventory item
+ * ***************************/
+async function addInventoryItem(inv) {
   try {
     const sql = `
       INSERT INTO inventory (
@@ -126,40 +57,27 @@ async function addInventory(
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
       RETURNING *
     `
-    const data = [
-      inv_make,
-      inv_model,
-      inv_description,
-      inv_image,
-      inv_thumbnail,
-      inv_price,
-      inv_year,
-      inv_miles,
-      inv_color,
-      classification_id,
-    ]
-
-    const result = await pool.query(sql, data)
-
-    /* ===== TEMPORARY TEST (START) ===== */
-    console.log("✅ addInventory() ran")
-    console.log("Inserted row:", result.rows[0])
-    /* ===== TEMPORARY TEST (END) ===== */
-
-    return result
+    const data = await pool.query(sql, [
+      inv.inv_make,
+      inv.inv_model,
+      inv.inv_description,
+      inv.inv_image,
+      inv.inv_thumbnail,
+      inv.inv_price,
+      inv.inv_year,
+      inv.inv_miles,
+      inv.inv_color,
+      inv.classification_id,
+    ])
+    return data.rows[0]
   } catch (error) {
-    console.error("addInventory error:", error)
-    throw error
+    console.error("addInventoryItem error:", error)
+    return null
   }
 }
 
-/* *****************************
- * EXPORTS
- * ***************************** */
 module.exports = {
-  addClassification, 
   getClassifications,
-  getInventoryByClassificationId,
-  getInventoryById,
-  addInventory,
+  addClassification,
+  addInventoryItem,
 }

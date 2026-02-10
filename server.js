@@ -1,102 +1,111 @@
+
+/* ******************************************
+ * Require Statements
+ * *****************************************/
 const express = require("express")
-const app = express()
 require("dotenv").config()
-
-const session = require("express-session")
-const flash = require("connect-flash")
-const cookieParser = require("cookie-parser")
-const path = require("path")
+const app = express()
 const expressLayouts = require("express-ejs-layouts")
+const session = require("express-session")
+const bodyParser = require("body-parser")
+const flash = require("connect-flash")
 
+/* ******************************************
+ * Controllers & Routes
+ * *****************************************/
 const utilities = require("./utilities")
 const accountRoute = require("./routes/accountRoute")
 const inventoryRoute = require("./routes/inventoryRoute")
 
-/* ******** VIEW ENGINE ******** */
-app.set("view engine", "ejs")
-app.set("views", path.join(__dirname, "views"))
+/* ******************************************
+ * Middleware
+ * *****************************************/
 
-/* ******** EXPRESS LAYOUTS ******** */
-app.use(expressLayouts)
-app.set("layout", "layouts/layout")
+// Body parser
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
-/* ******** MIDDLEWARE ******** */
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
-app.use(cookieParser())
-app.use(express.static(path.join(__dirname, "public")))
+// Static files
+app.use(express.static("public"))
 
-/* ******** SESSION ******** */
+// Sessions
 app.use(
   session({
-    name: "cse340-session",
-    secret: process.env.SESSION_SECRET || "devsecret", // ✅ prevents crash
+    name: "sessionId",
+    secret: process.env.SESSION_SECRET,
     resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === "production",
-      httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 2,
-    },
+    saveUninitialized: true,
   })
 )
 
-/* ******** FLASH ******** */
+// Flash messages
 app.use(flash())
 
-/* ******** JWT CHECK (BEFORE ROUTES) ******** */
-app.use(utilities.checkJWTToken)
-
-/* ******** GLOBAL LOCALS (FOR ALL VIEWS & LAYOUT) ******** */
+// Make session + flash data available to ALL views
 app.use((req, res, next) => {
+  res.locals.loggedIn = req.session.loggedIn
+  res.locals.accountData = req.session.accountData
   res.locals.messages = req.flash()
-  res.locals.loggedIn = req.session.loggedIn || false
-  res.locals.accountData = req.session.accountData || null
   next()
 })
 
-/* ******** ROUTES ******** */
-app.use("/account", accountRoute)
-app.use("/inv", inventoryRoute)
+/* ******************************************
+ * View Engine
+ * *****************************************/
+app.set("view engine", "ejs")
+app.set("layout", "./layouts/layout")
+app.use(expressLayouts)
 
-/* ******** HOME ROUTE ******** */
-app.get("/", async (req, res, next) => {
-  try {
-    const nav = await utilities.getNav(req)
+/* ******************************************
+ * Routes
+ * *****************************************/
+
+// Home route
+app.get(
+  "/",
+  utilities.handleErrors(async (req, res) => {
+    const nav = await utilities.getNav()
     res.render("index", {
       title: "Home",
       nav,
     })
-  } catch (err) {
-    next(err)
-  }
-})
+  })
+)
 
-/* ******** ERROR TEST ROUTE ******** */
-app.get("/error", (req, res, next) => {
-  next(new Error("Intentional error"))
-})
+// Account routes
+app.use("/account", accountRoute)
 
-/* ******** GLOBAL ERROR HANDLER (LAYOUT-SAFE) ******** */
-app.use(async (err, req, res, next) => {
-  console.error("Global error handler:", err)
+// Inventory routes
+app.use("/inv", inventoryRoute)
 
-  let nav = ""
-  try {
-    nav = await utilities.getNav(req)
-  } catch {
-    nav = ""
-  }
-
-  res.status(500).render("errors/error", {
-    title: "Server Error",
-    message: "Something went wrong.",
+/* ******************************************
+ * 404 Handler
+ * *****************************************/
+app.use(async (req, res) => {
+  const nav = await utilities.getNav()
+  res.status(404).render("errors/404", {
+    title: "404 Error",
     nav,
   })
 })
 
-/* ******** SERVER ******** */
-const PORT = process.env.PORT || 5500
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+/* ******************************************
+ * 500 Handler
+ * *****************************************/
+app.use(async (err, req, res, next) => {
+  console.error(err.stack)
+  const nav = await utilities.getNav()
+  res.status(500).render("errors/500", {
+    title: "Server Error",
+    nav,
+    message: err.message,
+  })
+})
+
+/* ******************************************
+ * Server
+ * *****************************************/
+const port = process.env.PORT || 5500
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`)
 })
