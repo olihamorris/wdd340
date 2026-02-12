@@ -1,0 +1,30 @@
+
+<%- include("../partials/header") %>
+
+<h2>Manage Reservations</h2>
+
+<table>
+  <tr>
+    <th>Vehicle</th>
+    <th>Customer</th>
+    <th>Dates</th>
+    <th>Status</th>
+    <th>Action</th>
+  </tr>
+
+  <% reservations.forEach(res => { %>
+    <tr>
+      <td><%= res.inv_make %> <%= res.inv_model %></td>
+      <td><%= res.customer_name %></td>
+      <td><%= res.start_date %> to <%= res.end_date %></td>
+      <td><%= res.status %></td>
+      <td>
+        <a href="/reservations/approve/<%= res.reservation_id %>">Approve</a> |
+        <a href="/reservations/cancel/<%= res.reservation_id %>">Cancel</a>
+      </td>
+    </tr>
+  <% }) %>
+</table>
+
+<%- include("../partials/footer") %>
+

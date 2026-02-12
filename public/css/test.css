@@ -1,310 +1,421 @@
-/*****************************
- * GLOBAL RESET & BOX MODEL
- *****************************/
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html,
-body {
+/* Page Background */body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow-x: hidden;
+  padding: 20px;
+  background: url('/images/checker.png');
 }
 
-/*****************************
- * PAGE BACKGROUND
- * (Checkerboard surface)
- *****************************/
-body {
-  font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.6;
-
-  background-image: url("/images/site/small_check.jpg");
-  background-repeat: repeat;
-
-  display: flex;
-  justify-content: center;
-  padding: 2rem;
+.main-content {
+  background: white;
+  padding: 20px;
 }
 
-/*****************************
- * WHITE CONTENT SHEET
- *****************************/
+/* Main Wrapper */
 #wrapper {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1300px; /* Increased width */
+  margin: 20px auto;
+  border: 4px solid #007BFF;
   background-color: #ffffff;
-  padding: 1.5rem;
-  
-  /* thin blue separation (grading critical) */
-  border: 4px solid #1aa3b0;
-
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+  padding: 20px;
 }
 
-/*****************************
- * HEADER
- *****************************/
+/* Header */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-bottom: 1rem;
+  padding-bottom: 15px;
 }
 
-/*****************************
- * NAVIGATION
- *****************************/
+header h1 {
+  margin: 0;
+}
+
+/* Account Link */
+.account-link a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+/* Navigation */
 nav {
   background-color: #000000;
   width: 100%;
 }
 
 nav ul {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 10px 0;
+  display: flex;
+  justify-content: space-around;
 }
 
 nav li {
-  text-align: center;
+  margin: 0;
 }
 
 nav a {
-  display: block;
-  padding: 1rem;
-
-  color: #ffffff;
-  background-color: #000000;
-
   text-decoration: none;
+  color: white;
   font-weight: bold;
-  font-size: 1.1rem;
 }
 
-nav a:hover,
-nav a:focus {
-  background-color: #1aa3b0;
-  color: #000000;
-}
-
-/*****************************
- * MAIN CONTENT
- *****************************/
-main {
-  padding: 1rem 0;
-}
-
-/*****************************
- * HERO SECTION
- *****************************/
+/* Hero Section (Overlay Support) */
 .hero {
-  margin-bottom: 2rem;
-}
-
-.hero-content {
   position: relative;
-}
-
-.hero-text {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-
-  background-color: #ffffff;
-  color: #000000;
-  padding: 1rem;
-  max-width: 90%;
-  transform: scale(0.50);
-  transform-origin: top left;
 }
 
 .hero img {
   width: 100%;
-  height: auto;
   display: block;
 }
 
-/*****************************
- * BUTTONS
- *****************************/
-.btn {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-
-  background-color: #004d55;
-  color: #ffffff;
-
-  text-decoration: none;
-  font-weight: bold;
-
-  border: 1px solid #333;
-  margin-top: 0.5rem;
+.hero-text {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  color: white;
+  z-index: 2;
 }
 
-/*****************************
- * UPGRADES
- *****************************/
+/* Main Content */
+main {
+  padding: 20px 0;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding-top: 15px;
+  font-size: 14px;
+}
+
+/* ===========================
+   MEDIA QUERY (Desktop View)
+   =========================== */
+@media screen and (min-width: 768px) {
+
+  nav ul {
+    justify-content: space-evenly;
+  }
+
+  .hero-text {
+    top: 35%;
+    left: 15%;
+    font-size: 1.2rem;
+  }
+
+  main {
+    padding: 30px 0;
+  }
+}/* ================= Page Background ================= */
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background-image: url("/images/site/checkerboard.jpg");
+  background-repeat: repeat;
+  background-size: 40px 40px; /* smaller checks */
+}
+
+/* ================= Wrapper ================= */
+
+#wrapper {
+  width: 95%;
+  max-width: 1300px;
+  margin: 20px auto;
+  border: 4px solid #007BFF;
+  background-color: #ffffff;
+  padding: 20px;
+}
+
+/* ================= Header ================= */
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 15px;
+}
+
+header h1 {
+  margin: 0;
+}
+
+.account-link a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+
+/* ================= Navigation ================= */
+
+nav {
+  background-color: #000000;
+  width: 100%;
+}
+
+nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 12px 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+/* ================= HERO ================= */
+
+.hero {
+  margin-bottom: 30px;
+}
+
+/* This controls overlay positioning */
+.hero-content {
+  position: relative;
+}
+
+.hero-image img {
+  width: 100%;
+  display: block;
+}
+
+/* Blue overlay box */
+.hero-text {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  background-color: rgba(0, 123, 255, 0.85);
+  color: white;
+  padding: 15px;
+  border-radius: 6px;
+  max-width: 260px;
+  z-index: 2;
+}
+
+/* Button */
+.btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background-color: #ffffff;
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+/* ================= DETAILS SECTION ================= */
+
+/* Mobile First (stacked) */
+.details {
+  margin-top: 30px;
+}
+
+.upgrades,
+.reviews {
+  margin-bottom: 25px;
+}
+
+/* Upgrade grid */
 .upgrade-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-}
-
-.upgrade-grid div {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 15px;
   text-align: center;
 }
 
 .upgrade-grid img {
-  max-width: 120px;
-  padding: 10px;
-
-  background-color: #9eeaf0;
-  border: 1px solid #333;
-}
-
-.upgrade-grid p {
-  margin-top: 0.5rem;
-  font-weight: bold;
-  color: #003366;
-}
-
-/*****************************
- * REVIEWS
- *****************************/
-.reviews ul {
-  padding-left: 1.5rem;
-}
-
-/*****************************
- * VEHICLE DETAIL PAGE
- *****************************/
-.vehicle-detail {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.vehicle-detail img {
-  width: 400px;
-  max-width: 100%;
-}
-
-.vehicle-info {
-  max-width: 500px;
-}
-
-/*****************************
- * FOOTER
- *****************************/
-footer {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #cccccc;
-  text-align: center;
-}
-
-/*****************************
- * GLOBAL IMAGE SAFETY
- *****************************/
-img {
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/*****************************
- * FORM STYLINGS
- *****************************/
-form {
-  max-width: 400px;
-  margin: 1rem auto;
-}
-
-label {
-  display: block;
-  margin-top: 1rem;
-}
-
-input, button {
   width: 100%;
-  padding: 0.5rem;
+  max-width: 120px;
 }
 
-button {
-  margin-top: 1.5rem;
-}
+/* ================= DESKTOP ================= */
 
-
-Main bottom CSS 
-
-/* ================================
-   HTML5 Form Validation Styling
-   ================================ */
-
-/* Invalid inputs */
-input:required:invalid,
-input:focus:invalid,
-textarea:required:invalid {
-  border: 2px solid #c0392b;
-  background-image: url("/images/invalid.png");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 20px;
-}
-
-/* Valid inputs */
-input:required:valid,
-textarea:required:valid {
-  border: 2px solid #27ae60;
-  background-image: url("/images/valid.png");
-  background-repeat: no-repeat;
-  background-position: right 0.5rem center;
-  background-size: 20px;
-}
-
-/* Password hint text */
-.password-hint {
-  display: block;
-  font-size: 0.9rem;
-  color: #555;
-  margin-bottom: 0.5rem;
-}
-
-/*****************************
- * DESKTOP LAYOUT
- *****************************/
 @media screen and (min-width: 768px) {
 
+  /* Adjust overlay slightly */
+  .hero-text {
+    top: 20%;
+    left: 8%;
+  }
+
+  /* Reviews and upgrades side by side */
   .details {
     display: flex;
-    gap: 3rem;
+    gap: 40px;
     align-items: flex-start;
   }
 
   .upgrades {
     flex: 1;
-    order: 1;
   }
 
   .reviews {
     flex: 1;
-    order: 2;
-  }
-
-  .vehicle-detail {
-    flex-direction: row;
   }
 }
+
+/* ================= Footer ================= */
+
+main {
+  padding: 20px 0;
+}
+
+footer {
+  text-align: center;
+  padding-top: 15px;
+  font-size: 14px;
+} 
+
+/* =========================
+   Clean Form Design
+   ========================= */
+
+.form-container {
+  width: 400px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.form-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-container label {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.form-container input {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-container button {
+  margin-top: 20px;
+  padding: 10px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.form-container button:hover {
+  background: #0056b3;
+}
+
+.form-container p {
+  text-align: center;
+  margin-top: 15px;
+}
+
+/* =========================
+   Reservation Form Styling
+   ========================= */
+
+.wrapper {
+  width: 450px;
+  margin: 50px auto;
+  padding: 25px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.wrapper h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.wrapper form {
+  display: flex;
+  flex-direction: column;
+}
+
+.wrapper label {
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.wrapper input {
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.wrapper button {
+  margin-top: 20px;
+  padding: 10px;
+  background: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.wrapper button:hover {
+  background: #0056b3;
+}
+
+/* =========================
+   Reservation Table Styling
+   ========================= */
+
+table {
+  width: 90%;
+  margin: 40px auto;
+  border-collapse: collapse;
+  background: white;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+table th {
+  background: #007BFF;
+  color: white;
+  padding: 12px;
+  text-align: left;
+}
+
+table td {
+  padding: 12px;
+  border-bottom: 1px solid #ddd;
+}
+
+table tr:hover {
+  background: #f5f5f5;
+}
+
+table a {
+  text-decoration: none;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+table a:hover {
+  text-decoration: underline;
+}
+
+

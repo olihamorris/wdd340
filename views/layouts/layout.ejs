@@ -2,44 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
-
-  <!-- ✅ MAIN CSS -->
+  <title>CSE Motors</title>
   <link rel="stylesheet" href="/css/test.css">
-
-  <link rel="icon" type="image/png" href="/images/site/favicon-32x32.png">
 </head>
 <body>
 
 <div id="wrapper">
 
-  <header id="top-header">
-    <div class="siteName">
-      <a href="/">CSE Motors</a>
-    </div>
-
-    <div id="tools">
-      <% if (loggedIn) { %>
-        <a href="/account/">Account</a> |
-        <a href="/account/logout">Logout</a>
-      <% } else { %>
-        <a href="/account/login">Login</a>
-      <% } %>
+  <header>
+    <h1>CSE Motors</h1>
+    <div class="account-link">
+      <a href="/account">My Account</a>
     </div>
   </header>
 
   <nav>
-    <%- nav %>
+    <% if (typeof nav !== "undefined") { %>
+      <%- nav %>
+    <% } else { %>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/inventory">Inventory</a></li>
+        <li><a href="/reservations">Reservations</a></li>
+      </ul>
+    <% } %>
   </nav>
 
   <main>
-    <% if (messages.notice) { %>
-      <div class="notice">
-        <%= messages.notice %>
-      </div>
-    <% } %>
-
     <%- body %>
   </main>
 

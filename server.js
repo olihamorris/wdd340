@@ -1,4 +1,5 @@
 
+
 /* ******************************************
  * Require Statements
  * *****************************************/
@@ -11,24 +12,25 @@ const bodyParser = require("body-parser")
 const flash = require("connect-flash")
 
 /* ******************************************
- * Controllers & Routes
+ * Utilities & Routes
  * *****************************************/
 const utilities = require("./utilities")
 const accountRoute = require("./routes/accountRoute")
 const inventoryRoute = require("./routes/inventoryRoute")
+const reservationRoute = require("./routes/reservationRoute")
 
 /* ******************************************
  * Middleware
  * *****************************************/
 
-// Body parser
+// Body parser middleware
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // Static files
 app.use(express.static("public"))
 
-// Sessions
+// Session middleware
 app.use(
   session({
     name: "sessionId",
@@ -38,10 +40,10 @@ app.use(
   })
 )
 
-// Flash messages
+// Flash middleware
 app.use(flash())
 
-// Make session + flash data available to ALL views
+// Make session + flash available to all views
 app.use((req, res, next) => {
   res.locals.loggedIn = req.session.loggedIn
   res.locals.accountData = req.session.accountData
@@ -53,9 +55,9 @@ app.use((req, res, next) => {
  * View Engine
  * *****************************************/
 app.set("view engine", "ejs")
-app.set("layout", "./layouts/layout")
 app.use(expressLayouts)
-
+app.set("layout", "layouts/layout")
+console.log("Layout set to:", app.get("layout"))
 /* ******************************************
  * Routes
  * *****************************************/
@@ -77,6 +79,9 @@ app.use("/account", accountRoute)
 
 // Inventory routes
 app.use("/inv", inventoryRoute)
+
+// Reservation routes
+app.use("/reservations", reservationRoute)
 
 /* ******************************************
  * 404 Handler
