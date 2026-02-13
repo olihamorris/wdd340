@@ -105,13 +105,20 @@ async function accountLogin(req, res) {
 }
 
 /* ****************************************
- * Account management view
+ * Account management view (FIXED)
  * *************************************** */
 async function buildManagement(req, res) {
   const nav = await utilities.getNav()
+
+  if (!req.session.accountData) {
+    return res.redirect("/account/login")
+  }
+
   res.render("account/management", {
     title: "Account Management",
     nav,
+    accountData: req.session.accountData,
+    messages: req.flash(),
     errors: null,
   })
 }
@@ -142,12 +149,18 @@ async function updateAccount(req, res) {
       account_lastname,
       account_email,
     }
-    req.flash("notice", "Account updated.")
+
+    req.flash("notice", "Account updated successfully.")
     return res.redirect("/account/")
   }
 
   req.flash("notice", "Update failed.")
-  res.render("account/management", { title: "Account Management", nav })
+  res.render("account/management", {
+    title: "Account Management",
+    nav,
+    accountData: req.session.accountData,
+    messages: req.flash(),
+  })
 }
 
 /* ****************************************
@@ -158,18 +171,24 @@ async function updatePassword(req, res) {
   const { account_password, account_id } = req.body
 
   const hashedPassword = bcrypt.hashSync(account_password, 10)
+
   const result = await accountModel.updatePassword(
     hashedPassword,
     account_id
   )
 
   if (result) {
-    req.flash("notice", "Password updated.")
+    req.flash("notice", "Password updated successfully.")
     return res.redirect("/account/")
   }
 
   req.flash("notice", "Password update failed.")
-  res.render("account/management", { title: "Account Management", nav })
+  res.render("account/management", {
+    title: "Account Management",
+    nav,
+    accountData: req.session.accountData,
+    messages: req.flash(),
+  })
 }
 
 /* ****************************************
@@ -177,8 +196,9 @@ async function updatePassword(req, res) {
  * *************************************** */
 async function logout(req, res) {
   res.clearCookie("jwt")
-  req.flash("notice", "You have been logged out.")
-  req.session.destroy(() => res.redirect("/"))
+  req.session.destroy(() => {
+    res.redirect("/")
+  })
 }
 
 module.exports = {
