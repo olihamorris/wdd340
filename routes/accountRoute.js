@@ -38,6 +38,12 @@ router.get(
   utilities.handleErrors(accountController.buildManagement)
 )
 
+router.get(
+  "/update/:account_id",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildUpdate)
+)
+
 // Process account info update
 router.post(
   "/update",

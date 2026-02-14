@@ -1,0 +1,40 @@
+<h1>Update Account</h1>
+
+<h2>Update Account Information</h2>
+
+<% if (messages.notice) { %>
+  <p class="notice"><%= messages.notice %></p>
+<% } %>
+
+<form action="/account/update" method="post">
+  <label for="account_firstname">First Name</label>
+  <input type="text" name="account_firstname" required
+    value="<%= accountData.account_firstname %>">
+
+  <label for="account_lastname">Last Name</label>
+  <input type="text" name="account_lastname" required
+    value="<%= accountData.account_lastname %>">
+
+  <label for="account_email">Email</label>
+  <input type="email" name="account_email" required
+    value="<%= accountData.account_email %>">
+
+  <input type="hidden" name="account_id"
+    value="<%= accountData.account_id %>">
+
+  <button type="submit">Update Account</button>
+</form>
+
+<hr>
+
+<h2>Update Password</h2>
+
+<form action="/account/update-password" method="post">
+  <label for="account_password">New Password</label>
+  <input type="password" name="account_password" required>
+
+  <input type="hidden" name="account_id"
+    value="<%= accountData.account_id %>">
+
+  <button type="submit">Update Password</button>
+</form>
